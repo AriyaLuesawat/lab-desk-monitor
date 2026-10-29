@@ -23,7 +23,7 @@
       </nav>
       <div class="sidebar-bottom">
         <div class="demo-pill"><span class="pulse"></span> DEMO MODE</div>
-        <p>Availability in the overview is simulated. Photo analysis uses on-device object detection.</p>
+        <p>Desk occupancy is simulated and shared. Photo analysis uses on-device object detection.</p>
       </div>
     </aside>
 
@@ -38,12 +38,13 @@
           <div><div class="eyebrow">WORKSPACE AVAILABILITY</div><h1 id="dashboard-title">Find your space.</h1><p class="lead">Check the lab at a glance and reserve an available desk.</p></div>
           <button class="secondary-button" id="randomize-button"><span>↻</span> Shuffle test data</button>
         </div>
-        <div class="notice"><span class="notice-icon">✳</span><span><strong>Test environment</strong> — These desk statuses are randomly generated. Reservations are saved only in this browser and are not connected to PSU records.</span></div>
+        <div class="notice"><span class="notice-icon">✳</span><span><strong>Shared test environment</strong> — Desk status and bookings are shared across devices. Occupancy is simulated, and student IDs are not verified against PSU.</span></div>
+        <div class="sync-status" id="overview-status" role="status">Connecting to shared desk status…</div>
 
         <div class="stats">
           <article class="stat"><div class="stat-top"><span>AVAILABLE DESKS</span><span class="stat-symbol green">↗</span></div><div class="stat-number" id="available-count">—</div><div class="stat-note">Ready to reserve</div></article>
           <article class="stat"><div class="stat-top"><span>IN USE</span><span class="stat-symbol amber">●</span></div><div class="stat-number" id="occupied-count">—</div><div class="stat-note">Simulated occupancy</div></article>
-          <article class="stat"><div class="stat-top"><span>RESERVED</span><span class="stat-symbol blue">▣</span></div><div class="stat-number" id="reserved-count">—</div><div class="stat-note">Bookings in this browser</div></article>
+          <article class="stat"><div class="stat-top"><span>RESERVED</span><span class="stat-symbol blue">▣</span></div><div class="stat-number" id="reserved-count">—</div><div class="stat-note">Shared bookings</div></article>
           <article class="stat"><div class="stat-top"><span>TOTAL DESKS</span><span class="stat-symbol gray">▦</span></div><div class="stat-number">12</div><div class="stat-note">Computer laboratory</div></article>
         </div>
 
@@ -53,7 +54,7 @@
           <div class="desk-grid" id="desk-grid"></div>
           <div class="room-bottom"><span>▯</span> ENTRANCE</div>
         </div>
-        <p class="helper">Select an available desk to reserve it. Simulated availability may change when you shuffle test data; your reservations stay saved.</p>
+        <p class="helper">Select an available desk to reserve it. Shuffling changes the shared simulated occupancy while active reservations remain in place.</p>
       </section>
 
       <section class="view" id="photo-view" aria-labelledby="photo-title">
@@ -70,8 +71,9 @@
       </section>
 
       <section class="view" id="bookings-view" aria-labelledby="bookings-title">
-        <div class="heading-row"><div><div class="eyebrow">YOUR BOOKINGS</div><h1 id="bookings-title">Reservations.</h1><p class="lead">Manage the desks reserved in this browser.</p></div></div>
-        <div class="notice"><span class="notice-icon">ⓘ</span><span>These test bookings are browser-local. They are not shared with other students and student IDs are not verified against PSU.</span></div>
+        <div class="heading-row"><div><div class="eyebrow">YOUR BOOKINGS</div><h1 id="bookings-title">Reservations.</h1><p class="lead">Manage the desks reserved from this browser.</p></div></div>
+        <div class="notice"><span class="notice-icon">ⓘ</span><span>Bookings are shared, but this browser keeps the private cancellation key. Your student ID is not shown to other visitors or verified against PSU.</span></div>
+        <div class="sync-status" id="booking-status" role="status"></div>
         <div class="booking-panel"><div class="section-heading compact"><h2>Upcoming reservations</h2><span id="booking-count">0 reservations</span></div><div id="booking-list"></div></div>
       </section>
     </main>
@@ -80,5 +82,6 @@
   <dialog id="reserve-dialog" class="reserve-dialog"><form id="reserve-form" method="dialog"><div class="dialog-head"><div><div class="eyebrow">NEW RESERVATION</div><h2 id="dialog-title">Reserve desk</h2></div><button class="icon-button" type="button" id="close-dialog" aria-label="Close">×</button></div><p class="dialog-copy">Enter your student ID and choose how long you need the desk.</p><label class="field-label" for="student-id">Student ID</label><input id="student-id" name="studentId" autocomplete="off" inputmode="text" maxlength="30" required placeholder="Enter your student ID"><label class="field-label" for="duration">Reservation length</label><select id="duration" name="duration"><option value="30">30 minutes</option><option value="60" selected>1 hour</option><option value="120">2 hours</option><option value="180">3 hours</option></select><p class="form-error" id="form-error" role="alert"></p><div class="dialog-actions"><button type="button" class="secondary-button" id="cancel-dialog">Cancel</button><button type="submit" class="primary-button">Confirm reservation</button></div></form></dialog>
 
   <script src="./app.js" defer></script>
+  <script src="./photo.js" defer></script>
 </body>
 </html>
