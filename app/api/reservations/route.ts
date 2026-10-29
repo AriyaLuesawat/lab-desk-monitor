@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     const hash = await tokenHash(token);
     const now = Date.now();
     const reservedUntil = now + duration * 60_000;
-    const result = await db.prepare("UPDATE desks SET student_id = ?, token_hash = ?, reserved_until = ? WHERE id = ? AND occupied = 0 AND (reserved_until IS NULL OR reserved_until <= ?)").bind(studentId, hash, reservedUntil, deskId, now).run();
+    const result = await db.prepare("UPDATE desks SET student_id = ?, token_hash = ?, reserved_until = ? WHERE id = ? AND (reserved_until IS NULL OR reserved_until <= ?)").bind(studentId, hash, reservedUntil, deskId, now).run();
     if (result.meta.changes !== 1) return json({ error: "This desk was just taken. Refresh and choose another." }, 409);
     return json({ deskId, studentId, reservedUntil, token }, 201);
   } catch {

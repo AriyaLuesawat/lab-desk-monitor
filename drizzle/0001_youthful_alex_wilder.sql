@@ -1,0 +1,1 @@
+ALTER TABLE `desks` DROP COLUMN `occupied`;

@@ -1,4 +1,4 @@
-// Photo analysis is independent of simulated room availability. The user must
+// Photo analysis is separate from live booking availability. The user must
 // mark desk and chair zones because a generic object detector cannot locate
 // individual workstations reliably in arbitrary laboratory images.
 const canvas = $('#photo-canvas');

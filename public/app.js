@@ -47,7 +47,7 @@ function activeBookings() {
 }
 
 function renderDashboard() {
-  const counts = { available: 0, occupied: 0, reserved: 0 };
+  const counts = { available: 0, reserved: 0 };
   const grid = $('#desk-grid');
   grid.replaceChildren();
   DESKS.forEach((id) => {
@@ -57,7 +57,7 @@ function renderDashboard() {
     button.type = 'button';
     button.className = `desk-card ${status}`;
     button.disabled = !hasSnapshot || status !== 'available' && !(status === 'reserved' && activeBookings().some((item) => item.deskId === id));
-    const label = status === 'occupied' ? 'In use' : status === 'reserved' ? 'Reserved' : status === 'available' ? 'Available' : 'Loading';
+    const label = status === 'reserved' ? 'Reserved' : status === 'available' ? 'Open to book' : 'Loading';
     button.setAttribute('aria-label', `${id}, ${label}. ${status === 'available' ? 'Select to reserve.' : ''}`);
     button.innerHTML = `<span class="desk-top"><span class="desk-id">${id}</span><span class="desk-state">${label}</span></span><span class="desk-visual" aria-hidden="true"></span>`;
     button.addEventListener('click', () => {
@@ -67,9 +67,9 @@ function renderDashboard() {
     grid.append(button);
   });
   $('#available-count').textContent = hasSnapshot ? counts.available : '—';
-  $('#occupied-count').textContent = hasSnapshot ? counts.occupied : '—';
   $('#reserved-count').textContent = hasSnapshot ? counts.reserved : '—';
-  $('#randomize-button').disabled = !hasSnapshot;
+  $('#my-count').textContent = hasSnapshot ? activeBookings().length : '—';
+  $('#refresh-button').disabled = !hasSnapshot;
 }
 
 function renderBookings() {
@@ -124,7 +124,7 @@ async function syncDesks() {
       if (!Array.isArray(data.desks) || data.desks.length !== DESKS.length) throw new Error('Desk data is incomplete.');
       remoteDesks = new Map(data.desks.map((desk) => [desk.id, desk]));
       hasSnapshot = true;
-      setOverviewStatus(`Shared test data · Updated ${formatTime(Date.now())}`);
+      setOverviewStatus(`Live booking data · Updated ${formatTime(Date.now())}`);
     } catch (error) {
       hasSnapshot = false;
       setOverviewStatus(error.message || 'Shared desk status is unavailable.', true);
@@ -153,15 +153,7 @@ function openReservation(id) {
 function closeReservation() { $('#reserve-dialog').close(); chosenDesk = null; }
 
 document.querySelectorAll('.nav-link').forEach((link) => link.addEventListener('click', () => showView(link.dataset.view)));
-$('#randomize-button').addEventListener('click', async () => {
-  const button = $('#randomize-button'); button.disabled = true;
-  try {
-    const response = await fetch('/api/desks/shuffle', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
-    if (!response.ok) throw new Error((await response.json()).error || 'Could not shuffle desks.');
-    await syncDesks();
-  } catch (error) { setOverviewStatus(error.message || 'Could not shuffle desks.', true); }
-  finally { button.disabled = !hasSnapshot; }
-});
+$('#refresh-button').addEventListener('click', syncDesks);
 $('#close-dialog').addEventListener('click', closeReservation);
 $('#cancel-dialog').addEventListener('click', closeReservation);
 $('#reserve-dialog').addEventListener('click', (event) => { if (event.target === $('#reserve-dialog')) closeReservation(); });

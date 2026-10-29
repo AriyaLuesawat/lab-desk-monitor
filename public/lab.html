@@ -22,8 +22,8 @@
         <button class="nav-link" data-view="bookings"><span class="nav-icon">▤</span> My reservations</button>
       </nav>
       <div class="sidebar-bottom">
-        <div class="demo-pill"><span class="pulse"></span> DEMO MODE</div>
-        <p>Desk occupancy is simulated and shared. Photo analysis uses on-device object detection.</p>
+        <div class="demo-pill"><span class="pulse"></span> PILOT MODE</div>
+        <p>Live booking status is shared. Physical desk occupancy is unknown.</p>
       </div>
     </aside>
 
@@ -35,26 +35,26 @@
 
       <section class="view active" id="dashboard-view" aria-labelledby="dashboard-title">
         <div class="heading-row">
-          <div><div class="eyebrow">WORKSPACE AVAILABILITY</div><h1 id="dashboard-title">Find your space.</h1><p class="lead">Check the lab at a glance and reserve an available desk.</p></div>
-          <button class="secondary-button" id="randomize-button"><span>↻</span> Shuffle test data</button>
+          <div><div class="eyebrow">BOOKING AVAILABILITY</div><h1 id="dashboard-title">Find a desk to book.</h1><p class="lead">See live reservations and choose an unbooked desk.</p></div>
+          <button class="secondary-button" id="refresh-button"><span>↻</span> Refresh bookings</button>
         </div>
-        <div class="notice"><span class="notice-icon">✳</span><span><strong>Shared test environment</strong> — Desk status and bookings are shared across devices. Occupancy is simulated, and student IDs are not verified against PSU.</span></div>
+        <div class="notice"><span class="notice-icon">✳</span><span><strong>Live booking data</strong> — “Open for booking” means no active reservation. It does not confirm that a desk is physically empty. Student IDs are not verified against PSU.</span></div>
         <div class="sync-status" id="overview-status" role="status">Connecting to shared desk status…</div>
 
         <div class="stats">
-          <article class="stat"><div class="stat-top"><span>AVAILABLE DESKS</span><span class="stat-symbol green">↗</span></div><div class="stat-number" id="available-count">—</div><div class="stat-note">Ready to reserve</div></article>
-          <article class="stat"><div class="stat-top"><span>IN USE</span><span class="stat-symbol amber">●</span></div><div class="stat-number" id="occupied-count">—</div><div class="stat-note">Simulated occupancy</div></article>
-          <article class="stat"><div class="stat-top"><span>RESERVED</span><span class="stat-symbol blue">▣</span></div><div class="stat-number" id="reserved-count">—</div><div class="stat-note">Shared bookings</div></article>
+          <article class="stat"><div class="stat-top"><span>OPEN FOR BOOKING</span><span class="stat-symbol green">↗</span></div><div class="stat-number" id="available-count">—</div><div class="stat-note">Physical occupancy unknown</div></article>
+          <article class="stat"><div class="stat-top"><span>RESERVED</span><span class="stat-symbol blue">▣</span></div><div class="stat-number" id="reserved-count">—</div><div class="stat-note">Shared active bookings</div></article>
+          <article class="stat"><div class="stat-top"><span>YOUR BOOKINGS</span><span class="stat-symbol amber">●</span></div><div class="stat-number" id="my-count">—</div><div class="stat-note">Saved in this browser</div></article>
           <article class="stat"><div class="stat-top"><span>TOTAL DESKS</span><span class="stat-symbol gray">▦</span></div><div class="stat-number">12</div><div class="stat-note">Computer laboratory</div></article>
         </div>
 
-        <div class="section-heading"><div><div class="eyebrow">ROOM LAYOUT</div><h2>Computer laboratory</h2></div><div class="legend"><span><i class="key available"></i> Available</span><span><i class="key occupied"></i> In use</span><span><i class="key reserved"></i> Reserved</span></div></div>
+        <div class="section-heading"><div><div class="eyebrow">ROOM LAYOUT</div><h2>Computer laboratory bookings</h2></div><div class="legend"><span><i class="key available"></i> Open for booking</span><span><i class="key reserved"></i> Reserved</span></div></div>
         <div class="room-panel">
           <div class="room-top"><span>LAB 01</span><span>FRONT OF ROOM / WHITEBOARD</span><span>12 STATIONS</span></div>
           <div class="desk-grid" id="desk-grid"></div>
           <div class="room-bottom"><span>▯</span> ENTRANCE</div>
         </div>
-        <p class="helper">Select an available desk to reserve it. Shuffling changes the shared simulated occupancy while active reservations remain in place.</p>
+        <p class="helper">Select an open desk to reserve it. Check the physical desk before use; booking status cannot detect a person or computer in the lab.</p>
       </section>
 
       <section class="view" id="photo-view" aria-labelledby="photo-title">

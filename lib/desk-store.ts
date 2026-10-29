@@ -12,7 +12,7 @@ export async function ensureDesks(db: D1Database) {
   const seen = new Set(existing.results.map((row) => row.id));
   const missing = DESK_IDS.filter((id) => !seen.has(id));
   if (!missing.length) return;
-  await db.batch(missing.map((id) => db.prepare("INSERT OR IGNORE INTO desks (id, occupied) VALUES (?, ?)").bind(id, Math.random() < 0.38 ? 1 : 0)));
+  await db.batch(missing.map((id) => db.prepare("INSERT OR IGNORE INTO desks (id) VALUES (?)").bind(id)));
 }
 
 export function json(data: unknown, status = 200) {

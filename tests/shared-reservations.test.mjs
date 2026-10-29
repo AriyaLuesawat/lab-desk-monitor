@@ -16,12 +16,8 @@ test('bookings are shared, exclusive, and cancellable only with the private key'
   let snapshot = await request('/api/desks');
   assert.equal(snapshot.status, 200);
   assert.equal(snapshot.data.desks.length, 12);
-  let desk = snapshot.data.desks.find((item) => item.status === 'available');
-  if (!desk) {
-    await request('/api/desks/shuffle', 'POST', {});
-    snapshot = await request('/api/desks');
-    desk = snapshot.data.desks.find((item) => item.status === 'available');
-  }
+  assert.ok(snapshot.data.desks.every((item) => item.status === 'available' || item.status === 'reserved'));
+  const desk = snapshot.data.desks.find((item) => item.status === 'available');
   assert.ok(desk, 'at least one desk should be available for the test');
 
   const booked = await request('/api/reservations', 'POST', { deskId: desk.id, studentId: 'TEST123', duration: 30 });
